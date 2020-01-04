@@ -6,6 +6,7 @@
 
 compile_all() ->
     compile:file(print),
+    compile:file(blinder),
     compile:file(utils),
     compile:file(render),
     compile:file(controller),
@@ -34,6 +35,9 @@ loop(FPidController, FPidRenderer, FPidSensor) ->
     print:print({gotoxy, 0, ?USERINPUT}),
     {ok, Input} = io:read(" "),
     case Input of
+        {all, Level} ->
+            FPidController!{all, Level},
+            loop(FPidController, FPidRenderer, FPidSensor);
         {Id, Level} ->
             FPidController!{Id, Level},
             loop(FPidController, FPidRenderer, FPidSensor);

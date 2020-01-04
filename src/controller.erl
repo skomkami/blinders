@@ -17,6 +17,9 @@ blindersController(BlindersFPids, CloseAll, BlindersLevels) ->
         {level, Id, Level} ->
             % save level of blinder
             blindersController(BlindersFPids, CloseAll, utils:setnth(Id, BlindersLevels, Level));
+        {all, Level} ->
+            [Blinder!{set, Level} || Blinder <- BlindersFPids],
+            blindersController(BlindersFPids, false, BlindersLevels);
         {Id, Level} ->
             case CloseAll of
                 true -> 
