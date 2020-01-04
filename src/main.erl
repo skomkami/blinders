@@ -1,18 +1,19 @@
 -module(main).
--compile(utils).
--compile(print).
--compile(sun).
--compile(sensor).
--compile(blinder).
--compile(controller).
--compile(render).
 -compile([export_all]).
--import(print,[print/1]).
 -define(USERINPUT, 22).
 -define(BLINDER_INIT_LEVEL, 8).
 -define(SUN_INIT_TEMP, 30).
 
+compile_all() ->
+    compile:file(print),
+    compile:file(utils),
+    compile:file(render),
+    compile:file(controller),
+    compile:file(sun),
+    compile:file(sensor).
+
 start() ->
+    compile_all(),
     io:format("Enter number of blinders: "),
     {ok, [NoBlinders|_]} = io:fread('',"~d"),
     main(NoBlinders).
