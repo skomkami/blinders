@@ -1,6 +1,7 @@
 -module(render).
--compile([export_all]).
--define(RENDER_INTERVAL_MS, 500).
+-export([renderer/1]).
+
+-define(RENDER_INTERVAL_MS, 1000).
 
 renderer(BlindersFPids) ->
     receive

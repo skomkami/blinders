@@ -1,5 +1,6 @@
 -module(controller).
--compile([export_all]).
+-export([blindersController/3]).
+
 -define(BLINDER_MAX_LEVEL, 18).
 
 blindersController(BlindersFPids, CloseAll, BlindersLevels) ->
@@ -17,6 +18,9 @@ blindersController(BlindersFPids, CloseAll, BlindersLevels) ->
         {level, Id, Level} ->
             % save level of blinder
             blindersController(BlindersFPids, CloseAll, utils:setnth(Id, BlindersLevels, Level));
+        {all, Level} ->
+            [Blinder!{set, Level} || Blinder <- BlindersFPids],
+            blindersController(BlindersFPids, false, BlindersLevels);
         {Id, Level} ->
             case CloseAll of
                 true -> 

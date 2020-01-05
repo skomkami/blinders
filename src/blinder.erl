@@ -1,7 +1,8 @@
 -module(blinder).
--compile([export_all]).
+-export([blinder/3]).
+
 -define(BLINDWIDTH, 20).
--define(USERINPUT, 22).
+-define(BLINDER_MAX_PRINT_LEVEL, 20).
 
 
 blinder(Id, CurrentLevel, TargetLevel) ->
@@ -27,12 +28,18 @@ blinder(Id, CurrentLevel, TargetLevel) ->
 
 
 printBlinder(Id, Row, Level) ->
-    case Row < Level+1 of
+    case Row < ?BLINDER_MAX_PRINT_LEVEL of
         true ->
-            print:print({printxy, 3+(Id-1)*?BLINDWIDTH, Row, "################"}),
-            printBlinder(Id, Row + 1, Level);
+            case Row < Level+1 of
+                true ->
+                    print:print({printxy, 3+(Id-1)*?BLINDWIDTH, Row, "################"}),
+                    printBlinder(Id, Row + 1, Level);
+                false ->
+                    print:print({printxy, 3+(Id-1)*?BLINDWIDTH, Row, "----------------"}),
+                    printBlinder(Id, Row + 1, Level)
+            end;
         false ->
-            {print:print({printxy, 0, ?USERINPUT,"action>"})}
+            print:printMenu()
     end.
 
 printBlinder(Id, Level) ->
