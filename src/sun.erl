@@ -1,5 +1,6 @@
 -module(sun).
--compile([export_all]).
+-export([sun/1]).
+
 -define(SUN_INTERVAL_SECONDS, 15).
 
 sun(Temperature) ->

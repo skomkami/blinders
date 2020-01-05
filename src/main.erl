@@ -1,5 +1,6 @@
 -module(main).
--compile([export_all]).
+-export([start/0]).
+
 -define(USERINPUT, 22).
 -define(BLINDER_INIT_LEVEL, 8).
 -define(SUN_INIT_TEMP, 30).
@@ -11,6 +12,7 @@ compile_all() ->
     compile:file(render),
     compile:file(controller),
     compile:file(sun),
+    compile:file(validator),
     compile:file(sensor).
 
 start() ->
@@ -33,8 +35,11 @@ main(NoBlinders) ->
 
 loop(FPidController, FPidRenderer, FPidSensor) ->
     print:print({gotoxy, 0, ?USERINPUT}),
-    {ok, Input} = io:read(" "),
-    case Input of
+
+    Input = io:get_line(" "),
+    Value = validator:convert(Input),
+
+    case Value of
         {all, Level} ->
             FPidController!{all, Level},
             loop(FPidController, FPidRenderer, FPidSensor);
@@ -50,5 +55,7 @@ loop(FPidController, FPidRenderer, FPidSensor) ->
         terminate ->
             FPidRenderer!terminate,
             FPidController!terminate,
-            FPidSensor!terminate
+            FPidSensor!terminate;
+        incorrect ->
+            loop(FPidController, FPidRenderer, FPidSensor)
     end.

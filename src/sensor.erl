@@ -1,5 +1,6 @@
 -module(sensor).
--compile([export_all]).
+-export([sensor/3]).
+
 -define(TEMP_TRESHOLD, 60).
 
 

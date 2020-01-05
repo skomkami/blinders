@@ -1,5 +1,6 @@
 -module(controller).
--compile([export_all]).
+-export([blindersController/3]).
+
 -define(BLINDER_MAX_LEVEL, 18).
 
 blindersController(BlindersFPids, CloseAll, BlindersLevels) ->
