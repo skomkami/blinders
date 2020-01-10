@@ -12,7 +12,6 @@ sensor(FPidSun, FPidController, Locked) ->
             self()!measure,
             sensor(FPidSun, FPidController, Locked);
         {temperature, Temp} ->
-            print:print({printxy,1,21,"Sun temperature: " ++ integer_to_list(Temp)}),
             case Temp > ?TEMP_TRESHOLD of
                 true ->
                     case Locked of

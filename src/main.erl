@@ -24,11 +24,11 @@ start() ->
 main(NoBlinders) ->
     print:print({clear}),
     FPidBlinders = [spawn(blinder, blinder, [Id, ?BLINDER_INIT_LEVEL, ?BLINDER_INIT_LEVEL]) || Id <- lists:seq(1,NoBlinders)],
-    FPidRenderer = spawn(render, renderer, [FPidBlinders]),
     FPidController = spawn(controller, blindersController, [FPidBlinders, false, lists:duplicate(NoBlinders,0)]),
-    FPidRenderer!{render},
-    FPidSun = spawn(sun, sun, [?SUN_INIT_TEMP]),
-    FPidSun!{changeTemp},
+    FPidSun = spawn(sun, sun, [?SUN_INIT_TEMP,0.0]),
+    FPidSun!shine,
+    FPidRenderer = spawn(render, renderer, [FPidBlinders, FPidSun, ?SUN_INIT_TEMP]),
+    FPidRenderer!{temperature,?SUN_INIT_TEMP},
     FPidSensor = spawn(sensor, sensor, [FPidSun, FPidController, false]),
     FPidSensor!measure,
     loop(FPidController, FPidRenderer, FPidSensor).
