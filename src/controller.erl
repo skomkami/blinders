@@ -1,7 +1,7 @@
 -module(controller).
 -export([blindersController/3]).
 
--define(BLINDER_MAX_LEVEL, 18).
+-define(BLINDER_MAX_LEVEL, 20).
 
 blindersController(BlindersFPids, CloseAll, BlindersLevels) ->
     receive

@@ -1,9 +1,9 @@
 -module(blinder).
 -export([blinder/3]).
 
--define(BLINDWIDTH, 20).
--define(BLINDER_MAX_PRINT_LEVEL, 20).
-
+-define(BLINDER_WIDTH, 20).
+-define(BLINDER_HEIGHT, 20).
+-define(BLINDER_MARGIN_TOP,12).
 
 blinder(Id, CurrentLevel, TargetLevel) ->
     receive
@@ -26,16 +26,15 @@ blinder(Id, CurrentLevel, TargetLevel) ->
             io:format("Blinder ~p terminated~n",[Id])
     end.
 
-
 printBlinder(Id, Row, Level) ->
-    case Row < ?BLINDER_MAX_PRINT_LEVEL of
+    case Row =< ?BLINDER_HEIGHT of
         true ->
-            case Row < Level+1 of
+            case Row =< Level of
                 true ->
-                    print:print({printxy, 3+(Id-1)*?BLINDWIDTH, Row, "################"}),
+                    print:print({printxy, 3+(Id-1)*?BLINDER_WIDTH, ?BLINDER_MARGIN_TOP + Row, "################"}),
                     printBlinder(Id, Row + 1, Level);
                 false ->
-                    print:print({printxy, 3+(Id-1)*?BLINDWIDTH, Row, "----------------"}),
+                    print:print({printxy, 3+(Id-1)*?BLINDER_WIDTH, ?BLINDER_MARGIN_TOP + Row, "----------------"}),
                     printBlinder(Id, Row + 1, Level)
             end;
         false ->
@@ -43,5 +42,5 @@ printBlinder(Id, Row, Level) ->
     end.
 
 printBlinder(Id, Level) ->
-    print:print({printxy, 6+(Id-1)*?BLINDWIDTH, 1, "Blinder " ++ integer_to_list(Id)}),
-    printBlinder(Id, 2, Level+1).
+    print:print({printxy, 6+(Id-1)*?BLINDER_WIDTH, ?BLINDER_MARGIN_TOP, "Blinder " ++ integer_to_list(Id)}),
+    printBlinder(Id, 1, Level).

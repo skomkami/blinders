@@ -1,7 +1,7 @@
 -module(print).
 -export([print/1, printMenu/0]).
 
--define(USERINPUT, 22).
+-define(USERINPUT, 1).
 -define(OFFSET, 30).
 
 
