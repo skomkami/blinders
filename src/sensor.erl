@@ -3,7 +3,6 @@
 
 -define(TEMP_TRESHOLD, 60).
 
-
 sensor(FPidSun, FPidController, Locked) ->
     receive
         measure ->

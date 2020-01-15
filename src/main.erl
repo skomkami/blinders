@@ -53,6 +53,8 @@ loop(FPidController, FPidRenderer, FPidSensor) ->
             FPidController!openAll,
             loop(FPidController, FPidRenderer, FPidSensor);
         terminate ->
+            print:print({clear}),
+            print:print({gotoxy,0,0}),
             FPidRenderer!terminate,
             FPidController!terminate,
             FPidSensor!terminate;

@@ -11,7 +11,7 @@ renderer(BlindersFPids, SunFPid, SunTemperature) ->
         {render} ->
             print:print({clear}),
             [FPid!{draw} || FPid <- BlindersFPids],
-            print:print({printxy,1,21,"Sun temperature: " ++ integer_to_list(SunTemperature)}),
+            print:print({printxy,1, 11,"Sun temperature: " ++ integer_to_list(SunTemperature)}),
             timer:sleep(?RENDER_INTERVAL_MS),
             SunFPid!{self(),getTemp},
             renderer(BlindersFPids, SunFPid, SunTemperature);
